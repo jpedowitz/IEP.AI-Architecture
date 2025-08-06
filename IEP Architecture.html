@@ -1,0 +1,849 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>IEP.AI Education Architecture</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .architecture-container {
+            max-width: 1400px;
+            margin: 0 auto;
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 20px;
+            padding: 30px;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        .header h1 {
+            color: #2c3e50;
+            font-size: 2.5em;
+            margin-bottom: 10px;
+            font-weight: 700;
+        }
+
+        .header p {
+            color: #7f8c8d;
+            font-size: 1.2em;
+        }
+
+        .architecture-diagram {
+            display: grid;
+            grid-template-rows: auto auto auto auto auto;
+            gap: 25px;
+            min-height: 800px;
+        }
+
+        .layer {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 20px;
+            padding: 20px;
+            border-radius: 15px;
+            position: relative;
+        }
+
+        .layer-title {
+            position: absolute;
+            top: -15px;
+            left: 20px;
+            background: #2c3e50;
+            color: white;
+            padding: 8px 20px;
+            border-radius: 20px;
+            font-weight: 600;
+            font-size: 0.9em;
+            letter-spacing: 1px;
+        }
+
+        .presentation-layer {
+            background: linear-gradient(135deg, #74b9ff, #0984e3);
+        }
+
+        .api-layer {
+            background: linear-gradient(135deg, #55a3ff, #003d82);
+        }
+
+        .ai-layer {
+            background: linear-gradient(135deg, #fd79a8, #e84393);
+        }
+
+        .service-layer {
+            background: linear-gradient(135deg, #fdcb6e, #e17055);
+        }
+
+        .data-layer {
+            background: linear-gradient(135deg, #6c5ce7, #a29bfe);
+        }
+
+        .infrastructure-layer {
+            background: linear-gradient(135deg, #00b894, #00cec9);
+        }
+
+        .component {
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 12px;
+            padding: 20px;
+            text-align: center;
+            transition: all 0.3s ease;
+            border: 2px solid transparent;
+            min-height: 120px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+
+        .component:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px rgba(0,0,0,0.15);
+            border-color: rgba(255,255,255,0.8);
+        }
+
+        .component h3 {
+            color: #2c3e50;
+            margin-bottom: 8px;
+            font-size: 1.1em;
+            font-weight: 600;
+        }
+
+        .component p {
+            color: #7f8c8d;
+            font-size: 0.85em;
+            line-height: 1.4;
+        }
+
+        .component .tech-stack {
+            margin-top: 8px;
+            font-size: 0.75em;
+            color: #e74c3c;
+            font-weight: 500;
+        }
+
+        .flow-arrow {
+            position: absolute;
+            width: 0;
+            height: 0;
+            border-left: 15px solid transparent;
+            border-right: 15px solid transparent;
+            border-top: 20px solid rgba(52, 152, 219, 0.7);
+            left: 50%;
+            transform: translateX(-50%);
+            bottom: -25px;
+            z-index: 10;
+        }
+
+        .integrations {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 15px;
+            margin-top: 20px;
+            padding: 20px;
+            background: linear-gradient(135deg, #ddd6fe, #c4b5fd);
+            border-radius: 15px;
+        }
+
+        .integration-item {
+            background: white;
+            padding: 15px;
+            border-radius: 8px;
+            text-align: center;
+            font-size: 0.9em;
+            color: #4c1d95;
+            font-weight: 500;
+        }
+
+        .mvp-core {
+            border: 3px solid #e74c3c !important;
+            background: linear-gradient(135deg, rgba(231, 76, 60, 0.1), rgba(255, 255, 255, 0.95)) !important;
+            position: relative;
+        }
+
+        .mvp-core::before {
+            content: "MVP CORE";
+            position: absolute;
+            top: -8px;
+            right: 10px;
+            background: #e74c3c;
+            color: white;
+            padding: 4px 12px;
+            border-radius: 15px;
+            font-size: 0.7em;
+            font-weight: 700;
+            letter-spacing: 1px;
+        }
+
+        .roadmap-item {
+            opacity: 0.7;
+            border: 1px dashed #bdc3c7;
+        }
+
+        .security-badge {
+            position: absolute;
+            top: 5px;
+            right: 5px;
+            background: #e74c3c;
+            color: white;
+            padding: 4px 8px;
+            border-radius: 12px;
+            font-size: 0.7em;
+            font-weight: 600;
+        }
+
+        .mvp-core {
+            border: 3px solid #e74c3c !important;
+            background: linear-gradient(135deg, rgba(231, 76, 60, 0.1), rgba(255, 255, 255, 0.95)) !important;
+            position: relative;
+        }
+
+        .mvp-core::before {
+            content: "MVP CORE";
+            position: absolute;
+            top: -8px;
+            right: 10px;
+            background: #e74c3c;
+            color: white;
+            padding: 4px 12px;
+            border-radius: 15px;
+            font-size: 0.7em;
+            font-weight: 700;
+            letter-spacing: 1px;
+        }
+
+        .roadmap-item {
+            opacity: 0.7;
+            border: 1px dashed #bdc3c7;
+        }
+
+        .roadmap-item h3, .roadmap-item h4 {
+            color: #7f8c8d !important;
+        }
+
+        .ai-features {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
+        }
+
+        .ai-feature {
+            background: rgba(255, 255, 255, 0.9);
+            padding: 15px;
+            border-radius: 8px;
+            border-left: 4px solid #e84393;
+        }
+
+        .ai-feature h4 {
+            color: #2c3e50;
+            margin-bottom: 5px;
+            font-size: 0.9em;
+        }
+
+        .ai-feature p {
+            color: #7f8c8d;
+            font-size: 0.75em;
+        }
+    </style>
+</head>
+<body>
+    <div class="architecture-container">
+        <div class="header">
+            <h1>🧠 IEP.AI Education Platform Architecture</h1>
+            <p>AI-Powered Individualized Education Program Management System</p>
+        </div>
+
+        <div class="architecture-diagram">
+            <!-- Presentation Layer -->
+            <div class="layer presentation-layer">
+                <div class="layer-title">Presentation Layer</div>
+                <div class="component mvp-core">
+                    <h3>📱 Basic Educator Portal</h3>
+                    <p>Core React.js interface for IEP creation, editing, and basic collaboration</p>
+                    <div class="tech-stack">React.js • Basic Authentication • Forms</div>
+                </div>
+                <div class="component mvp-core">
+                    <h3>👨‍👩‍👧‍👦 Simple Parent View</h3>
+                    <p>Read-only IEP access for parents, basic notifications</p>
+                    <div class="tech-stack">React.js • Read-only Interface</div>
+                </div>
+                <div class="component roadmap-item">
+                    <h3>📊 Admin Dashboard</h3>
+                    <p>District-level reporting, compliance monitoring, and analytics</p>
+                    <div class="tech-stack">React.js • D3.js • Charts</div>
+                </div>
+                <div class="component roadmap-item">
+                    <h3>📱 Mobile Apps</h3>
+                    <p>Native iOS/Android apps for on-the-go access and notifications</p>
+                    <div class="tech-stack">React Native • Push Notifications</div>
+                </div>
+                <div class="component roadmap-item">
+                    <h3>✍️ Digital Signature</h3>
+                    <p>E-signature workflows for parent consents and IEP approvals</p>
+                    <div class="tech-stack">DocuSign API • Adobe Sign Integration</div>
+                </div>
+                <div class="component roadmap-item">
+                    <h3>📅 Calendar Integration</h3>
+                    <p>IEP meeting scheduling with Google/Outlook calendar sync</p>
+                    <div class="tech-stack">CalDAV • Google Calendar API • Outlook API</div>
+                </div>
+                <div class="flow-arrow"></div>
+            </div>
+
+            <!-- API Gateway Layer -->
+            <div class="layer api-layer">
+                <div class="layer-title">API Gateway & Authentication</div>
+                <div class="component mvp-core">
+                    <div class="security-badge">FERPA</div>
+                    <h3>🔐 Basic API Gateway</h3>
+                    <p>Simple authentication, request routing, basic rate limiting</p>
+                    <div class="tech-stack">Express.js • JWT • Basic Auth</div>
+                </div>
+                <div class="component mvp-core">
+                    <div class="security-badge">COPPA</div>
+                    <h3>🛡️ Essential Security</h3>
+                    <p>Basic encryption, audit logging, simple access control</p>
+                    <div class="tech-stack">AES-256 • TLS 1.3 • Basic RBAC</div>
+                </div>
+                <div class="component roadmap-item">
+                    <div class="security-badge">HIPAA</div>
+                    <h3>⚖️ Advanced Compliance Engine</h3>
+                    <p>IDEA, state regulations, and privacy compliance validation</p>
+                    <div class="tech-stack">Rule Engine • Policy Framework</div>
+                </div>
+                <div class="flow-arrow"></div>
+            </div>
+
+            <!-- AI/ML Layer -->
+            <div class="layer ai-layer">
+                <div class="layer-title">AI & Machine Learning Engine</div>
+                <div class="component mvp-core">
+                    <h3>🤖 Basic LLM Engine</h3>
+                    <p>OpenAI GPT integration for IEP content generation and basic compliance</p>
+                    <div class="tech-stack">OpenAI GPT-4 • Basic Prompts</div>
+                    <div class="ai-features">
+                        <div class="ai-feature">
+                            <h4>Core NLP</h4>
+                            <p>Convert educator input to basic IEP sections</p>
+                        </div>
+                        <div class="ai-feature">
+                            <h4>Simple Goal Generation</h4>
+                            <p>AI-powered basic SMART goal creation</p>
+                        </div>
+                        <div class="ai-feature roadmap-item">
+                            <h4>Advanced Prompt Chaining</h4>
+                            <p>Context-aware recommendations based on student profiles</p>
+                        </div>
+                        <div class="ai-feature roadmap-item">
+                            <h4>Full Compliance Validation</h4>
+                            <p>Real-time legal and regulatory compliance checking</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="flow-arrow"></div>
+            </div>
+
+            <!-- Service Layer -->
+            <div class="layer service-layer">
+                <div class="layer-title">Business Logic & Services</div>
+                <div class="component mvp-core">
+                    <h3>📝 Core IEP Workflow</h3>
+                    <p>Basic IEP creation, editing, and simple workflow management</p>
+                    <div class="tech-stack">Node.js • Express • Basic State Management</div>
+                </div>
+                <div class="component mvp-core">
+                    <h3>🎯 Basic Goal Templates</h3>
+                    <p>Pre-built goal templates for common needs (reading, math, behavior)</p>
+                    <div class="tech-stack">Static Templates • Basic ML Recommendations</div>
+                </div>
+                <div class="component mvp-core">
+                    <h3>📄 Simple PDF Generation</h3>
+                    <p>Basic IEP document generation with Maryland templates</p>
+                    <div class="tech-stack">Puppeteer • Basic Templates</div>
+                </div>
+                <div class="component roadmap-item">
+                    <h3>⏰ Advanced Timeline Engine</h3>
+                    <p>Maryland-specific timelines: 30/60/90 day tracking, automated alerts</p>
+                    <div class="tech-stack">Node.js • Cron Jobs • Twilio • SendGrid</div>
+                </div>
+                <div class="component roadmap-item">
+                    <h3>📋 Future Modules Hub</h3>
+                    <p>504 Plans, BIPs, counseling & behavioral health integration</p>
+                    <div class="tech-stack">Python • FastAPI • Behavioral Analytics</div>
+                </div>
+                <div class="component roadmap-item">
+                    <h3>📊 Progress Monitoring Service</h3>
+                    <p>Track student progress toward annual goals and benchmarks</p>
+                    <div class="tech-stack">Python • TimeSeries DB • Analytics</div>
+                </div>
+                <div class="component roadmap-item">
+                    <h3>🏛️ State Compliance Modules</h3>
+                    <p>Configurable compliance rules for different state requirements</p>
+                    <div class="tech-stack">Rules Engine • JSON Schema • Validation</div>
+                </div>
+                <div class="component roadmap-item">
+                    <h3>🔄 Real-time Collaboration</h3>
+                    <p>Multi-user editing, comments, and live IEP team collaboration</p>
+                    <div class="tech-stack">WebRTC • Socket.io • Operational Transform</div>
+                </div>
+                <div class="component roadmap-item">
+                    <h3>💰 Subscription & Billing Engine</h3>
+                    <p>Multi-tier pricing ($299/$499/$799), district licensing, add-ons</p>
+                    <div class="tech-stack">Stripe • Usage Metering • Subscription Management</div>
+                </div>
+                <div class="component roadmap-item">
+                    <h3>🎨 White-Label Customization</h3>
+                    <p>Custom branding, state-specific workflows, enterprise features</p>
+                    <div class="tech-stack">Theme Engine • Configuration Management</div>
+                </div>
+                <div class="component roadmap-item">
+                    <h3>📚 Assessment Integration Hub</h3>
+                    <p>Formal/informal assessments, accommodations database, AT recommendations</p>
+                    <div class="tech-stack">API Gateway • Assessment Protocols • ML Recommendations</div>
+                </div>
+                <div class="component roadmap-item">
+                    <h3>⚖️ Legal & Dispute Resolution</h3>
+                    <p>Due process tracking, mediation support, IEE management, parent rights</p>
+                    <div class="tech-stack">Workflow Engine • Legal Document Templates</div>
+                </div>
+                <div class="flow-arrow"></div>
+            </div>
+
+            <!-- Data Layer -->
+            <div class="layer data-layer">
+                <div class="layer-title">Data Storage & Management</div>
+                <div class="component mvp-core">
+                    <h3>🗄️ Core PostgreSQL Database</h3>
+                    <p>Basic student records, IEPs, and user management with encryption</p>
+                    <div class="tech-stack">PostgreSQL • Basic Encryption • Simple Schema</div>
+                </div>
+                <div class="component mvp-core">
+                    <h3>📄 Basic File Storage</h3>
+                    <p>IEP documents, simple templates, basic file attachments</p>
+                    <div class="tech-stack">AWS S3 • Basic Security</div>
+                </div>
+                <div class="component roadmap-item">
+                    <h3>📈 Analytics & Reporting DB</h3>
+                    <p>Compliance metrics, progress tracking, and district analytics</p>
+                    <div class="tech-stack">ClickHouse • Redis Cache • Data Warehouse</div>
+                </div>
+                <div class="component roadmap-item">
+                    <h3>🔒 Audit & Version Control</h3>
+                    <p>Complete audit trails, IEP version history, and change tracking</p>
+                    <div class="tech-stack">Elasticsearch • Event Store • Git-like Versioning</div>
+                </div>
+                <div class="component roadmap-item">
+                    <h3>🔄 Data Migration Engine</h3>
+                    <p>Import/export tools for existing IEP systems and SIS integration</p>
+                    <div class="tech-stack">Apache Airflow • ETL Pipelines • CSV/XML/API</div>
+                </div>
+                <div class="component roadmap-item">
+                    <h3>💾 Backup & Disaster Recovery</h3>
+                    <p>Multi-region backups with point-in-time recovery for critical education data</p>
+                    <div class="tech-stack">AWS RDS • Cross-Region Replication • Snapshots</div>
+                </div>
+                <div class="flow-arrow"></div>
+            </div>
+
+            <!-- Infrastructure Layer -->
+            <div class="layer infrastructure-layer">
+                <div class="layer-title">Cloud Infrastructure & DevOps</div>
+                <div class="component mvp-core">
+                    <h3>☁️ Basic Cloud Platform</h3>
+                    <p>Simple AWS setup with basic compliance and security</p>
+                    <div class="tech-stack">AWS • Basic Security Groups • VPC</div>
+                </div>
+                <div class="component mvp-core">
+                    <h3>🚀 Simple Container Deployment</h3>
+                    <p>Docker containers with basic orchestration</p>
+                    <div class="tech-stack">Docker • ECS • Basic Load Balancing</div>
+                </div>
+                <div class="component roadmap-item">
+                    <h3>📊 Advanced Monitoring</h3>
+                    <p>Application performance and system health monitoring</p>
+                    <div class="tech-stack">Prometheus • Grafana • Jaeger</div>
+                </div>
+                <div class="component roadmap-item">
+                    <h3>🔄 Full CI/CD Pipeline</h3>
+                    <p>Automated testing, deployment, and security scanning</p>
+                    <div class="tech-stack">GitHub Actions • ArgoCD</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- MVP Timeline & Goals -->
+        <div style="margin-top: 30px; padding: 25px; background: linear-gradient(135deg, #e74c3c, #c0392b); border-radius: 15px; position: relative; color: white;">
+            <div style="text-align: center; margin-bottom: 20px;">
+                <h2 style="color: white; margin-bottom: 10px;">🎯 MVP Timeline & Core Goals (3-4 Months)</h2>
+                <p style="color: rgba(255,255,255,0.9); font-size: 1.1em;">Focus on proving core value proposition: AI-powered IEP creation that reduces educator burden</p>
+            </div>
+            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 20px;">
+                <div style="background: rgba(255,255,255,0.1); padding: 20px; border-radius: 10px;">
+                    <h4 style="color: white; margin-bottom: 10px;">🎯 Primary MVP Goals</h4>
+                    <ul style="color: rgba(255,255,255,0.9); font-size: 0.9em; line-height: 1.6;">
+                        <li><strong>3 Pilot Districts</strong> - Initial validation</li>
+                        <li><strong>Basic AI IEP Generation</strong> - Core value prop</li>
+                        <li><strong>Maryland Compliance</strong> - Legal requirements</li>
+                        <li><strong>Essential Security</strong> - FERPA/COPPA basics</li>
+                        <li><strong>Simple Workflows</strong> - Create, edit, export IEPs</li>
+                    </ul>
+                </div>
+                <div style="background: rgba(255,255,255,0.1); padding: 20px; border-radius: 10px;">
+                    <h4 style="color: white; margin-bottom: 10px;">⚡ Success Metrics</h4>
+                    <ul style="color: rgba(255,255,255,0.9); font-size: 0.9em; line-height: 1.6;">
+                        <li><strong>50% time reduction</strong> - IEP creation time</li>
+                        <li><strong>100+ IEPs created</strong> - Usage validation</li>
+                        <li><strong>Basic parent access</strong> - Dual-user validation</li>
+                        <li><strong>Zero compliance issues</strong> - Legal safety</li>
+                        <li><strong>Positive user feedback</strong> - Product-market fit</li>
+                    </ul>
+                </div>
+                <div style="background: rgba(255,255,255,0.1); padding: 20px; border-radius: 10px;">
+                    <h4 style="color: white; margin-bottom: 10px;">🚀 Post-MVP Expansion</h4>
+                    <ul style="color: rgba(255,255,255,0.9); font-size: 0.9em; line-height: 1.6;">
+                        <li><strong>10 District Contracts</strong> - Growth phase</li>
+                        <li><strong>5,000 Paid Users</strong> - Scale validation</li>
+                        <li><strong>$1M ARR Target</strong> - Revenue milestone</li>
+                        <li><strong>Advanced Features</strong> - Roadmap rollout</li>
+                        <li><strong>Multi-State Support</strong> - Geographic expansion</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <!-- External Integrations -->
+        <div class="integrations">
+            <div class="layer-title" style="top: -15px; background: #7c3aed;">External Integrations & APIs</div>
+            <div class="integration-item" style="border: 2px solid #e74c3c; background: rgba(231, 76, 60, 0.1);">📧 <strong>Basic Email (MVP)</strong></div>
+            <div class="integration-item" style="border: 2px solid #e74c3c; background: rgba(231, 76, 60, 0.1);">📚 <strong>Simple SIS Export (MVP)</strong></div>
+            <div class="integration-item" style="opacity: 0.6;">📊 Advanced IEP Platforms</div>
+            <div class="integration-item" style="opacity: 0.6;">📧 Google Workspace</div>
+            <div class="integration-item" style="opacity: 0.6;">📱 Microsoft 365</div>
+            <div class="integration-item" style="opacity: 0.6;">🏥 Healthcare & Assessment Systems</div>
+            <div class="integration-item" style="opacity: 0.6;">🎓 State Education Departments</div>
+            <div class="integration-item" style="opacity: 0.6;">📋 Assessment Platforms (DIBELS, etc.)</div>
+            <div class="integration-item" style="opacity: 0.6;">💬 Communication Tools (Slack, Teams)</div>
+            <div class="integration-item" style="opacity: 0.6;">✍️ E-Signature Services (DocuSign)</div>
+            <div class="integration-item" style="opacity: 0.6;">📅 Calendar Systems (Google, Outlook)</div>
+            <div class="integration-item" style="opacity: 0.6;">📞 Communication APIs (Twilio)</div>
+            <div class="integration-item" style="opacity: 0.6;">🎯 Transition Service Agencies</div>
+            <div class="integration-item" style="opacity: 0.6;">📊 Data Visualization Tools</div>
+            <div class="integration-item" style="opacity: 0.6;">🔐 Single Sign-On (SSO) Providers</div>
+            <div class="integration-item" style="opacity: 0.6;">📈 Learning Management Systems</div>
+            <div class="integration-item" style="opacity: 0.6;">🏛️ Federal Reporting Systems</div>
+        </div>
+
+        <!-- External Integrations -->
+        <div class="integrations">
+            <div class="layer-title" style="top: -15px; background: #7c3aed;">External Integrations & APIs</div>
+            <div class="integration-item">📚 Student Information Systems (SIS)</div>
+            <div class="integration-item">📊 Existing IEP Platforms</div>
+            <div class="integration-item">📧 Google Workspace</div>
+            <div class="integration-item">📱 Microsoft 365</div>
+            <div class="integration-item">🏥 Healthcare & Assessment Systems</div>
+            <div class="integration-item">🎓 State Education Departments</div>
+            <div class="integration-item">📋 Assessment Platforms (DIBELS, etc.)</div>
+            <div class="integration-item">💬 Communication Tools (Slack, Teams)</div>
+            <div class="integration-item">✍️ E-Signature Services (DocuSign)</div>
+            <div class="integration-item">📅 Calendar Systems (Google, Outlook)</div>
+            <div class="integration-item">📞 Communication APIs (Twilio)</div>
+            <div class="integration-item">🎯 Transition Service Agencies</div>
+            <div class="integration-item">📊 Data Visualization Tools</div>
+            <div class="integration-item">🔐 Single Sign-On (SSO) Providers</div>
+            <div class="integration-item">📈 Learning Management Systems</div>
+            <div class="integration-item">🏛️ Federal Reporting Systems</div>
+        </div>
+
+        <!-- Business Intelligence & Support Layer -->
+        <div style="margin-top: 20px; padding: 25px; background: linear-gradient(135deg, #00b894, #00cec9); border-radius: 15px; position: relative;">
+            <div class="layer-title" style="top: -15px; background: #00a085;">Business Intelligence & Support Systems</div>
+            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 15px; margin-top: 10px;">
+                <div style="background: rgba(255,255,255,0.95); padding: 18px; border-radius: 10px;">
+                    <h4 style="color: #2c3e50; margin-bottom: 8px;">📊 Predictive Analytics Engine</h4>
+                    <p style="color: #7f8c8d; font-size: 0.85em;">ML models predicting student outcomes, identifying at-risk students, optimizing service delivery</p>
+                    <div style="color: #e74c3c; font-size: 0.75em; margin-top: 5px;">TensorFlow • Predictive Models • Risk Assessment</div>
+                </div>
+                <div style="background: rgba(255,255,255,0.95); padding: 18px; border-radius: 10px;">
+                    <h4 style="color: #2c3e50; margin-bottom: 8px;">💼 Caseload Management</h4>
+                    <p style="color: #7f8c8d; font-size: 0.85em;">Teacher workload optimization, compliance tracking, automated caseload balancing</p>
+                    <div style="color: #e74c3c; font-size: 0.75em; margin-top: 5px;">Optimization Algorithms • Workload Analytics</div>
+                </div>
+                <div style="background: rgba(255,255,255,0.95); padding: 18px; border-radius: 10px;">
+                    <h4 style="color: #2c3e50; margin-bottom: 8px;">💰 IDEA Funding Calculator</h4>
+                    <p style="color: #7f8c8d; font-size: 0.85em;">Federal/state funding calculations, budget planning, cost analysis per student</p>
+                    <div style="color: #e74c3c; font-size: 0.75em; margin-top: 5px;">Financial Models • Budget Analytics</div>
+                </div>
+                <div style="background: rgba(255,255,255,0.95); padding: 18px; border-radius: 10px;">
+                    <h4 style="color: #2c3e50; margin-bottom: 8px;">📞 Customer Support Portal</h4>
+                    <p style="color: #7f8c8d; font-size: 0.85em;">24/7 help desk, training modules, onboarding workflows, knowledge base</p>
+                    <div style="color: #e74c3c; font-size: 0.75em; margin-top: 5px;">Zendesk • Training LMS • Video Tutorials</div>
+                </div>
+                <div style="background: rgba(255,255,255,0.95); padding: 18px; border-radius: 10px;">
+                    <h4 style="color: #2c3e50; margin-bottom: 8px;">🌐 Multi-Language Support</h4>
+                    <p style="color: #7f8c8d; font-size: 0.85em;">Parent materials in multiple languages, interpreter scheduling, cultural competency</p>
+                    <div style="color: #e74c3c; font-size: 0.75em; margin-top: 5px;">i18n • Translation API • Cultural Adaptation</div>
+                </div>
+                <div style="background: rgba(255,255,255,0.95); padding: 18px; border-radius: 10px;">
+                    <h4 style="color: #2c3e50; margin-bottom: 8px;">🔍 Advanced Search & Discovery</h4>
+                    <p style="color: #7f8c8d; font-size: 0.85em;">Semantic search across IEPs, goal recommendations, similar case discovery</p>
+                    <div style="color: #e74c3c; font-size: 0.75em; margin-top: 5px;">Elasticsearch • NLP • Semantic Search</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Specialized Educational Components -->
+        <div style="margin-top: 20px; padding: 25px; background: linear-gradient(135deg, #a29bfe, #6c5ce7); border-radius: 15px; position: relative;">
+            <div class="layer-title" style="top: -15px; background: #5f3dc4;">Specialized Educational Components</div>
+            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 15px; margin-top: 10px;">
+                <div style="background: rgba(255,255,255,0.95); padding: 18px; border-radius: 10px;">
+                    <h4 style="color: #2c3e50; margin-bottom: 8px;">🏫 LRE Calculator & Placement Engine</h4>
+                    <p style="color: #7f8c8d; font-size: 0.85em;">Least Restrictive Environment analysis, placement recommendations, inclusion tracking</p>
+                    <div style="color: #e74c3c; font-size: 0.75em; margin-top: 5px;">Decision Tree • Placement Analytics • Inclusion Metrics</div>
+                </div>
+                <div style="background: rgba(255,255,255,0.95); padding: 18px; border-radius: 10px;">
+                    <h4 style="color: #2c3e50; margin-bottom: 8px;">🔄 Out-of-State Transfer Hub</h4>
+                    <p style="color: #7f8c8d; font-size: 0.85em;">Automated IEP transfer workflows, comparable services mapping, timeline management</p>
+                    <div style="color: #e74c3c; font-size: 0.75em; margin-top: 5px;">State Mapping • Service Translation • Workflow Automation</div>
+                </div>
+                <div style="background: rgba(255,255,255,0.95); padding: 18px; border-radius: 10px;">
+                    <h4 style="color: #2c3e50; margin-bottom: 8px;">🎓 Age of Majority Transition</h4>
+                    <p style="color: #7f8c8d; font-size: 0.85em;">Automated rights transfer notifications, legal guardianship tracking, self-advocacy tools</p>
+                    <div style="color: #e74c3c; font-size: 0.75em; margin-top: 5px;">Legal Automation • Rights Management • Self-Advocacy</div>
+                </div>
+                <div style="background: rgba(255,255,255,0.95); padding: 18px; border-radius: 10px;">
+                    <h4 style="color: #2c3e50; margin-bottom: 8px;">🏥 Extended School Year (ESY)</h4>
+                    <p style="color: #7f8c8d; font-size: 0.85em;">ESY eligibility determination, regression analysis, summer programming coordination</p>
+                    <div style="color: #e74c3c; font-size: 0.75em; margin-top: 5px;">Regression Analytics • ESY Planning • Summer Services</div>
+                </div>
+                <div style="background: rgba(255,255,255,0.95); padding: 18px; border-radius: 10px;">
+                    <h4 style="color: #2c3e50; margin-bottom: 8px;">💻 Assistive Technology Hub</h4>
+                    <p style="color: #7f8c8d; font-size: 0.85em;">AT assessment tools, device recommendations, funding coordination, training modules</p>
+                    <div style="color: #e74c3c; font-size: 0.75em; margin-top: 5px;">AT Database • Device Matching • Training Modules</div>
+                </div>
+                <div style="background: rgba(255,255,255,0.95); padding: 18px; border-radius: 10px;">
+                    <h4 style="color: #2c3e50; margin-bottom: 8px;">🧠 Behavior Support & FBA/BIP</h4>
+                    <p style="color: #7f8c8d; font-size: 0.85em;">Functional Behavior Assessment tools, Behavior Intervention Plans, positive behavior supports</p>
+                    <div style="color: #e74c3c; font-size: 0.75em; margin-top: 5px;">Behavior Analytics • Intervention Tracking • PBIS Integration</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Key IEP Workflow Features -->
+        <div style="margin-top: 30px; padding: 25px; background: linear-gradient(135deg, #ff7675, #fd79a8); border-radius: 15px; position: relative;">
+            <div class="layer-title" style="top: -15px; background: #d63031;">Key IEP Workflow Features</div>
+            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 15px; margin-top: 10px;">
+                <div style="background: rgba(255,255,255,0.95); padding: 15px; border-radius: 10px; border: 3px solid #e74c3c;">
+                    <h4 style="color: #2c3e50; margin-bottom: 8px;">📝 <strong>Core IEP Creation (MVP)</strong></h4>
+                    <p style="color: #7f8c8d; font-size: 0.85em;">AI-powered IEP generation, basic templates, simple goal creation</p>
+                </div>
+                <div style="background: rgba(255,255,255,0.95); padding: 15px; border-radius: 10px; border: 3px solid #e74c3c;">
+                    <h4 style="color: #2c3e50; margin-bottom: 8px;">📋 <strong>Maryland Compliance (MVP)</strong></h4>
+                    <p style="color: #7f8c8d; font-size: 0.85em;">Basic timeline tracking, essential forms generation, simple notifications</p>
+                </div>
+                <div style="background: rgba(255,255,255,0.95); padding: 15px; border-radius: 10px; opacity: 0.6; border: 1px dashed #bdc3c7;">
+                    <h4 style="color: #7f8c8d; margin-bottom: 8px;">⏱️ Advanced Timeline Compliance</h4>
+                    <p style="color: #7f8c8d; font-size: 0.85em;">30/60/90 day tracking, automated notifications for IEP meetings, evaluations, and reviews</p>
+                </div>
+                <div style="background: rgba(255,255,255,0.95); padding: 15px; border-radius: 10px; opacity: 0.6; border: 1px dashed #bdc3c7;">
+                    <h4 style="color: #7f8c8d; margin-bottom: 8px;">🔄 Advanced IEP Meeting Types</h4>
+                    <p style="color: #7f8c8d; font-size: 0.85em;">Initial, Annual Review, Reevaluation, Transition (14+), Emergency amendments</p>
+                </div>
+                <div style="background: rgba(255,255,255,0.95); padding: 15px; border-radius: 10px; opacity: 0.6; border: 1px dashed #bdc3c7;">
+                    <h4 style="color: #7f8c8d; margin-bottom: 8px;">🎯 Advanced Transition Planning</h4>
+                    <p style="color: #7f8c8d; font-size: 0.85em;">Age 14+ course planning, age 16+ transition services, interagency coordination</p>
+                </div>
+                <div style="background: rgba(255,255,255,0.95); padding: 15px; border-radius: 10px; opacity: 0.6; border: 1px dashed #bdc3c7;">
+                    <h4 style="color: #7f8c8d; margin-bottom: 8px;">📊 Advanced Progress Monitoring</h4>
+                    <p style="color: #7f8c8d; font-size: 0.85em;">Goal tracking, benchmark monitoring, quarterly progress reports to parents</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Operational & DevOps Layer -->
+        <div style="margin-top: 20px; padding: 25px; background: linear-gradient(135deg, #fd79a8, #fdcb6e); border-radius: 15px; position: relative;">
+            <div class="layer-title" style="top: -15px; background: #e84393;">Operational & DevOps Infrastructure</div>
+            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 15px; margin-top: 10px;">
+                <div style="background: rgba(255,255,255,0.95); padding: 18px; border-radius: 10px;">
+                    <h4 style="color: #2c3e50; margin-bottom: 8px;">🏗️ Multi-Tenant Architecture</h4>
+                    <p style="color: #7f8c8d; font-size: 0.85em;">District isolation, data segregation, tenant-specific customizations, usage metering</p>
+                    <div style="color: #e74c3c; font-size: 0.75em; margin-top: 5px;">Tenant Management • Resource Isolation • Custom Domains</div>
+                </div>
+                <div style="background: rgba(255,255,255,0.95); padding: 18px; border-radius: 10px;">
+                    <h4 style="color: #2c3e50; margin-bottom: 8px;">🚀 Auto-Scaling & Performance</h4>
+                    <p style="color: #7f8c8d; font-size: 0.85em;">Dynamic scaling for peak usage, CDN for global document delivery, caching strategies</p>
+                    <div style="color: #e74c3c; font-size: 0.75em; margin-top: 5px;">Kubernetes HPA • CloudFront • Redis Clustering</div>
+                </div>
+                <div style="background: rgba(255,255,255,0.95); padding: 18px; border-radius: 10px;">
+                    <h4 style="color: #2c3e50; margin-bottom: 8px;">🔧 Feature Flag & A/B Testing</h4>
+                    <p style="color: #7f8c8d; font-size: 0.85em;">Gradual feature rollouts, UI/UX optimization, district-specific feature toggles</p>
+                    <div style="color: #e74c3c; font-size: 0.75em; margin-top: 5px;">LaunchDarkly • Experimentation • Gradual Rollouts</div>
+                </div>
+                <div style="background: rgba(255,255,255,0.95); padding: 18px; border-radius: 10px;">
+                    <h4 style="color: #2c3e50; margin-bottom: 8px;">📈 Business Intelligence Dashboard</h4>
+                    <p style="color: #7f8c8d; font-size: 0.85em;">Revenue analytics, customer health scores, usage patterns, churn prediction</p>
+                    <div style="color: #e74c3c; font-size: 0.75em; margin-top: 5px;">Looker • Customer Success • Revenue Analytics</div>
+                </div>
+                <div style="background: rgba(255,255,255,0.95); padding: 18px; border-radius: 10px;">
+                    <h4 style="color: #2c3e50; margin-bottom: 8px;">🔄 Legal Updates Automation</h4>
+                    <p style="color: #7f8c8d; font-size: 0.85em;">IDEA law changes, state regulation updates, automatic template updates, compliance alerts</p>
+                    <div style="color: #e74c3c; font-size: 0.75em; margin-top: 5px;">Legal Monitoring • Template Versioning • Compliance Alerts</div>
+                </div>
+                <div style="background: rgba(255,255,255,0.95); padding: 18px; border-radius: 10px;">
+                    <h4 style="color: #2c3e50; margin-bottom: 8px;">📱 Mobile SDK & APIs</h4>
+                    <p style="color: #7f8c8d; font-size: 0.85em;">Third-party integrations, partner APIs, mobile development kits, webhook systems</p>
+                    <div style="color: #e74c3c; font-size: 0.75em; margin-top: 5px;">RESTful APIs • GraphQL • Webhook Architecture</div>
+                </div>
+            </div>
+        <!-- Implementation & Professional Development Layer -->
+        <div style="margin-top: 20px; padding: 25px; background: linear-gradient(135deg, #00cec9, #55efc4); border-radius: 15px; position: relative;">
+            <div class="layer-title" style="top: -15px; background: #00b894;">Implementation & Professional Development</div>
+            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 15px; margin-top: 10px;">
+                <div style="background: rgba(255,255,255,0.95); padding: 18px; border-radius: 10px;">
+                    <h4 style="color: #2c3e50; margin-bottom: 8px;">🎓 Training & Certification Hub</h4>
+                    <p style="color: #7f8c8d; font-size: 0.85em;">Professional development modules, IEP writing certification, IDEA law training, best practices</p>
+                    <div style="color: #e74c3c; font-size: 0.75em; margin-top: 5px;">LMS • Certification Tracking • Continuing Education</div>
+                </div>
+                <div style="background: rgba(255,255,255,0.95); padding: 18px; border-radius: 10px;">
+                    <h4 style="color: #2c3e50; margin-bottom: 8px;">🔄 Change Management Services</h4>
+                    <p style="color: #7f8c8d; font-size: 0.85em;">District onboarding, workflow transition, stakeholder training, adoption analytics</p>
+                    <div style="color: #e74c3c; font-size: 0.75em; margin-top: 5px;">Implementation Planning • Training Workflows • Adoption Metrics</div>
+                </div>
+                <div style="background: rgba(255,255,255,0.95); padding: 18px; border-radius: 10px;">
+                    <h4 style="color: #2c3e50; margin-bottom: 8px;">✅ Quality Assurance Engine</h4>
+                    <p style="color: #7f8c8d; font-size: 0.85em;">IEP quality scoring, peer review workflows, compliance checking, best practice recommendations</p>
+                    <div style="color: #e74c3c; font-size: 0.75em; margin-top: 5px;">Quality Metrics • Peer Review • Compliance Scoring</div>
+                </div>
+                <div style="background: rgba(255,255,255,0.95); padding: 18px; border-radius: 10px;">
+                    <h4 style="color: #2c3e50; margin-bottom: 8px;">📊 Research & Evaluation Platform</h4>
+                    <p style="color: #7f8c8d; font-size: 0.85em;">Evidence-based practice tracking, outcome measurement, research data collection</p>
+                    <div style="color: #e74c3c; font-size: 0.75em; margin-top: 5px;">Research Analytics • Outcome Tracking • Evidence-Based Practices</div>
+                </div>
+                <div style="background: rgba(255,255,255,0.95); padding: 18px; border-radius: 10px;">
+                    <h4 style="color: #2c3e50; margin-bottom: 8px;">🎯 Pilot & Implementation Tracking</h4>
+                    <p style="color: #7f8c8d; font-size: 0.85em;">3 pilot districts goal, 5K users milestone, $1M ARR tracking, success metrics</p>
+                    <div style="color: #e74c3c; font-size: 0.75em; margin-top: 5px;">Pilot Management • Success Metrics • Revenue Tracking</div>
+                </div>
+                <div style="background: rgba(255,255,255,0.95); padding: 18px; border-radius: 10px;">
+                    <h4 style="color: #2c3e50; margin-bottom: 8px;">🏆 Vendor & Provider Network</h4>
+                    <p style="color: #7f8c8d; font-size: 0.85em;">Related services providers, evaluation specialists, therapy networks, AT vendors</p>
+                    <div style="color: #e74c3c; font-size: 0.75em; margin-top: 5px;">Provider Directory • Network Management • Service Matching</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Advanced Parent & Family Engagement -->
+        <div style="margin-top: 20px; padding: 25px; background: linear-gradient(135deg, #fab1a0, #fd79a8); border-radius: 15px; position: relative;">
+            <div class="layer-title" style="top: -15px; background: #e84393;">Advanced Parent & Family Engagement</div>
+            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 15px; margin-top: 10px;">
+                <div style="background: rgba(255,255,255,0.95); padding: 18px; border-radius: 10px;">
+                    <h4 style="color: #2c3e50; margin-bottom: 8px;">👥 Enhanced Parent Communication</h4>
+                    <p style="color: #7f8c8d; font-size: 0.85em;">Two-way messaging, video conferencing, real-time updates, parent input collection</p>
+                    <div style="color: #e74c3c; font-size: 0.75em; margin-top: 5px;">Real-time Chat • Video Calls • Push Notifications</div>
+                </div>
+                <div style="background: rgba(255,255,255,0.95); padding: 18px; border-radius: 10px;">
+                    <h4 style="color: #2c3e50; margin-bottom: 8px;">🏠 Home-School Data Bridge</h4>
+                    <p style="color: #7f8c8d; font-size: 0.85em;">Home progress tracking, skill generalization monitoring, family goal setting</p>
+                    <div style="color: #e74c3c; font-size: 0.75em; margin-top: 5px;">Home Data Collection • Skill Transfer • Family Apps</div>
+                </div>
+                <div style="background: rgba(255,255,255,0.95); padding: 18px; border-radius: 10px;">
+                    <h4 style="color: #2c3e50; margin-bottom: 8px;">🌐 Culturally Responsive Tools</h4>
+                    <p style="color: #7f8c8d; font-size: 0.85em;">Cultural adaptation engine, family value integration, community resource connections</p>
+                    <div style="color: #e74c3c; font-size: 0.75em; margin-top: 5px;">Cultural Competency • Community Resources • Family Values</div>
+                </div>
+                <div style="background: rgba(255,255,255,0.95); padding: 18px; border-radius: 10px;">
+                    <h4 style="color: #2c3e50; margin-bottom: 8px;">⚖️ Parent Rights & Advocacy Hub</h4>
+                    <p style="color: #7f8c8d; font-size: 0.85em;">Rights education, advocacy training, self-advocacy tools, legal resource library</p>
+                    <div style="color: #e74c3c; font-size: 0.75em; margin-top: 5px;">Rights Education • Advocacy Training • Legal Resources</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Special Populations & Crisis Management -->
+        <div style="margin-top: 20px; padding: 25px; background: linear-gradient(135deg, #ff7675, #d63031); border-radius: 15px; position: relative;">
+            <div class="layer-title" style="top: -15px; background: #b71c1c;">Special Populations & Crisis Management</div>
+            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 15px; margin-top: 10px;">
+                <div style="background: rgba(255,255,255,0.95); padding: 18px; border-radius: 10px;">
+                    <h4 style="color: #2c3e50; margin-bottom: 8px;">🌍 ELL & Multilingual Support</h4>
+                    <p style="color: #7f8c8d; font-size: 0.85em;">English Language Learner protocols, language assessment integration, cultural mediators</p>
+                    <div style="color: #e74c3c; font-size: 0.75em; margin-top: 5px;">ELL Protocols • Language Assessment • Cultural Mediation</div>
+                </div>
+                <div style="background: rgba(255,255,255,0.95); padding: 18px; border-radius: 10px;">
+                    <h4 style="color: #2c3e50; margin-bottom: 8px;">🏠 Foster Care & Homeless Student Tracking</h4>
+                    <p style="color: #7f8c8d; font-size: 0.85em;">McKinney-Vento compliance, placement changes, educational continuity planning</p>
+                    <div style="color: #e74c3c; font-size: 0.75em; margin-top: 5px;">McKinney-Vento • Placement Tracking • Continuity Planning</div>
+                </div>
+                <div style="background: rgba(255,255,255,0.95); padding: 18px; border-radius: 10px;">
+                    <h4 style="color: #2c3e50; margin-bottom: 8px;">🚨 Crisis Intervention & Safety Planning</h4>
+                    <p style="color: #7f8c8d; font-size: 0.85em;">Behavioral crisis protocols, safety plan management, emergency contact systems</p>
+                    <div style="color: #e74c3c; font-size: 0.75em; margin-top: 5px;">Crisis Protocols • Safety Planning • Emergency Response</div>
+                </div>
+                <div style="background: rgba(255,255,255,0.95); padding: 18px; border-radius: 10px;">
+                    <h4 style="color: #2c3e50; margin-bottom: 8px;">🎖️ Military Family Support</h4>
+                    <p style="color: #7f8c8d; font-size: 0.85em;">Interstate compact compliance, deployment tracking, family support resources</p>
+                    <div style="color: #e74c3c; font-size: 0.75em; margin-top: 5px;">Interstate Compact • Deployment Support • Military Resources</div>
+                </div>
+                <div style="background: rgba(255,255,255,0.95); padding: 18px; border-radius: 10px;">
+                    <h4 style="color: #2c3e50; margin-bottom: 8px;">🏥 Medical & Health Integration</h4>
+                    <p style="color: #7f8c8d; font-size: 0.85em;">Health plan coordination, medication tracking, nursing services, emergency protocols</p>
+                    <div style="color: #e74c3c; font-size: 0.75em; margin-top: 5px;">Health Plans • Medical Coordination • Nursing Services</div>
+                </div>
+                <div style="background: rgba(255,255,255,0.95); padding: 18px; border-radius: 10px;">
+                    <h4 style="color: #2c3e50; margin-bottom: 8px;">🚌 Transportation & Logistics</h4>
+                    <p style="color: #7f8c8d; font-size: 0.85em;">Special transportation needs, route optimization, accessibility requirements</p>
+                    <div style="color: #e74c3c; font-size: 0.75em; margin-top: 5px;">Transportation Planning • Route Optimization • Accessibility</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Advanced Educational Components -->
+        <div style="margin-top: 20px; padding: 25px; background: linear-gradient(135deg, #74b9ff, #0984e3); border-radius: 15px; position: relative;">
+            <div class="layer-title" style="top: -15px; background: #2d3436;">Advanced Educational Components</div>
+            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 15px; margin-top: 10px;">
+                <div style="background: rgba(255,255,255,0.95); padding: 18px; border-radius: 10px;">
+                    <h4 style="color: #2c3e50; margin-bottom: 8px;">🎓 Graduation & Exit Planning</h4>
+                    <p style="color: #7f8c8d; font-size: 0.85em;">Diploma track planning, certificate programs, aging out procedures, post-school outcomes</p>
+                    <div style="color: #e74c3c; font-size: 0.75em; margin-top: 5px;">Graduation Planning • Certificate Tracks • Post-School Outcomes</div>
+                </div>
+                <div style="background: rgba(255,255,255,0.95); padding: 18px; border-radius: 10px;">
+                    <h4 style="color: #2c3e50; margin-bottom: 8px;">📚 Curriculum Alignment Engine</h4>
+                    <p style="color: #7f8c8d; font-size: 0.85em;">Standards alignment, curriculum mapping, grade-level expectations, differentiation tools</p>
+                    <div style="color: #e74c3c; font-size: 0.75em; margin-top: 5px;">Standards Alignment • Curriculum Mapping • Differentiation</div>
+                </div>
+                <div style="background: rgba(255,255,255,0.95); padding: 18px; border-radius: 10px;">
+                    <h4 style="color: #2c3e50; margin-bottom: 8px;">🧪 Universal Design for Learning (UDL)</h4>
+                    <p style="color: #7f8c8d; font-size: 0.85em;">UDL framework integration, multiple means of representation, engagement, and expression</p>
+                    <div style="color: #e74c3c; font-size: 0.75em; margin-top: 5px;">UDL Framework • Accessibility • Multiple Modalities</div>
+                </div>
+                <div style="background: rgba(255,255,255,0.95); padding: 18px; border-radius: 10px;">
+                    <h4 style="color: #2c3e50; margin-bottom: 8px;">💰 Grant Writing & Funding Support</h4>
+                    <p style="color: #7f8c8d; font-size: 0.85em;">IDEA funding optimization, grant opportunity matching, proposal assistance, budget planning</p>
+                    <div style="color: #e74c3c; font-size: 0.75em; margin-top: 5px;">Grant Matching • Proposal Tools • Funding Optimization</div>
+                </div>
+                <div style="background: rgba(255,255,255,0.95); padding: 18px; border-radius: 10px;">
+                    <h4 style="color: #2c3e50; margin-bottom: 8px;">🏛️ Policy & Advocacy Tools</h4>
+                    <p style="color: #7f8c8d; font-size: 0.85em;">Policy impact analysis, advocacy campaign tools, legislative tracking, stakeholder engagement</p>
+                    <div style="color: #e74c3c; font-size: 0.75em; margin-top: 5px;">Policy Analysis • Legislative Tracking • Advocacy Tools</div>
+                </div>
+                <div style="background: rgba(255,255,255,0.95); padding: 18px; border-radius: 10px;">
+                    <h4 style="color: #2c3e50; margin-bottom: 8px;">🔬 University Research Partnerships</h4>
+                    <p style="color: #7f8c8d; font-size: 0.85em;">Research collaboration platform, data anonymization for studies, evidence generation</p>
+                    <div style="color: #e74c3c; font-size: 0.75em; margin-top: 5px;">Research Collaboration • Data Anonymization • Evidence Generation</div>
+                </div>
+            </div>
+        </div>
+</body>
+</html>
